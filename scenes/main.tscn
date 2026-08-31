@@ -1,0 +1,150 @@
+[gd_scene load_steps=15 format=3 uid="uid://c8n4q7x1lumen0"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/exit_zone.gd" id="2_exit"]
+
+[sub_resource type="Gradient" id="Gradient_glow"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_light"]
+gradient = SubResource("Gradient_glow")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dot"]
+gradient = SubResource("Gradient_glow")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
+blend_mode = 1
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_player"]
+radius = 7.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wallA"]
+size = Vector2(40, 260)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wallB"]
+size = Vector2(40, 260)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wallC"]
+size = Vector2(50, 160)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_wallA"]
+polygon = PackedVector2Array(-20, -130, 20, -130, 20, 130, -20, 130)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_wallB"]
+polygon = PackedVector2Array(-20, -130, 20, -130, 20, 130, -20, 130)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_wallC"]
+polygon = PackedVector2Array(-25, -80, 25, -80, 25, 80, -25, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit_trigger"]
+size = Vector2(140, 200)
+
+[node name="Main" type="Node2D"]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(1, 1, 1, 1)
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(80, 270)
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_player")
+speed = 220.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_player")
+
+[node name="Glow" type="Sprite2D" parent="Player"]
+modulate = Color(1, 0.75, 0.45, 1)
+scale = Vector2(0.14, 0.14)
+texture = SubResource("GradientTexture2D_dot")
+
+[node name="Core" type="Sprite2D" parent="Player"]
+modulate = Color(1, 0.95, 0.85, 1)
+scale = Vector2(0.055, 0.055)
+texture = SubResource("GradientTexture2D_dot")
+
+[node name="VisualGlow" type="Sprite2D" parent="Player"]
+material = SubResource("CanvasItemMaterial_add")
+modulate = Color(1, 0.5, 0.28, 0.85)
+scale = Vector2(2.6, 2.6)
+texture = SubResource("GradientTexture2D_light")
+z_index = -1
+
+[node name="PointLight2D" type="PointLight2D" parent="Player"]
+color = Color(1, 0.78, 0.5, 1)
+energy = 1.6
+texture_scale = 3.0
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_light")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="ObstacleA" type="StaticBody2D" parent="."]
+position = Vector2(300, 130)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ObstacleA"]
+shape = SubResource("RectangleShape2D_wallA")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="ObstacleA"]
+occluder = SubResource("OccluderPolygon2D_wallA")
+
+[node name="Visual" type="Polygon2D" parent="ObstacleA"]
+color = Color(0.16, 0.16, 0.22, 1)
+polygon = PackedVector2Array(-20, -130, 20, -130, 20, 130, -20, 130)
+
+[node name="ObstacleB" type="StaticBody2D" parent="."]
+position = Vector2(560, 410)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ObstacleB"]
+shape = SubResource("RectangleShape2D_wallB")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="ObstacleB"]
+occluder = SubResource("OccluderPolygon2D_wallB")
+
+[node name="Visual" type="Polygon2D" parent="ObstacleB"]
+color = Color(0.16, 0.16, 0.22, 1)
+polygon = PackedVector2Array(-20, -130, 20, -130, 20, 130, -20, 130)
+
+[node name="ObstacleC" type="StaticBody2D" parent="."]
+position = Vector2(850, 400)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ObstacleC"]
+shape = SubResource("RectangleShape2D_wallC")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="ObstacleC"]
+occluder = SubResource("OccluderPolygon2D_wallC")
+
+[node name="Visual" type="Polygon2D" parent="ObstacleC"]
+color = Color(0.16, 0.16, 0.22, 1)
+polygon = PackedVector2Array(-25, -80, 25, -80, 25, 80, -25, 80)
+
+[node name="ExitZone" type="Area2D" parent="."]
+position = Vector2(900, 400)
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("2_exit")
+light_radius = 280.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone"]
+shape = SubResource("RectangleShape2D_exit_trigger")
+
+[node name="Visual" type="Polygon2D" parent="ExitZone"]
+color = Color(0.75, 0.35, 0.3, 1)
+polygon = PackedVector2Array(-15, -15, 15, -15, 15, 15, -15, 15)
