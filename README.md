@@ -1,5 +1,10 @@
 # Lumen
 
+> **Durum: erken prototip, aktif geliştirilmiyor.** Bu depo tek oturumda
+> yazılmış bir Godot 4 iskeletidir - bir seviye, temel ışık/gölge mekaniği,
+> otomasyonsuz. Aktif projeler için profildeki öne çıkan depolara bakın;
+> bu depo fikir arşivi olarak duruyor.
+
 Karanlık bir odada küçük, parlayan bir ışık noktasını yönetip çıkışa ulaştırdığın
 minimalist bir 2D ışık/gölge bulmacası. Godot 4'ün `Light2D` / `PointLight2D` /
 `LightOccluder2D` sistemi üzerine kurulu.
